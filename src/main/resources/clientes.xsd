@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://t4is.uv.mx/clientes"
+    xmlns:tns="https://t4is.uv.mx/clientes" elementFormDefault="qualified">
+
+
+    <!-- uno -->
+    <!-- fase de registro -->
+    <xs:element name="RegistroRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Nombre" type="xs:string" />
+                <xs:element name="folio" type="xs:string" />
+                <xs:element name="cantidad" type="xs:int" />
+                <xs:element name="total" type="xs:int" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RegistroResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Respuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- dos -->
+    <!-- lista de usuarios -->
+    <xs:element name="ListaPedidosRequest" />
+    <xs:element name="ListaPedidosResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pedidos" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="status" type="xs:string"></xs:element>
+
+                            <xs:element name="id" type="xs:int"></xs:element>
+                            <xs:element name="Nombre" type="xs:string"></xs:element>
+                            <xs:element name="folio" type="xs:string"></xs:element>
+                            <xs:element name="cantidad" type="xs:int"></xs:element>
+                            <xs:element name="total" type="xs:int"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- tres -->
+    <!-- buscar usuario por id -->
+    <xs:element name="BusquedaPedidoIDRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="BusquedaPedidoIDResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"></xs:element>
+                <xs:element name="Nombre" type="xs:string"></xs:element>
+                <xs:element name="folio" type="xs:string"></xs:element>
+                <xs:element name="cantidad" type="xs:int"></xs:element>
+                <xs:element name="total" type="xs:int"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
