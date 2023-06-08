@@ -5,24 +5,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
-public class Pedidos {
+public class Inventario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     private String folio;
     private String nombre;
-    private int total;
-    @JsonProperty
-    private int cantidad;
+    private Integer total;
+    private String cantidad;
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getFolio() {
@@ -37,16 +34,17 @@ public class Pedidos {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
-    public int getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
-    public void setCantidad(int cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
+
 }

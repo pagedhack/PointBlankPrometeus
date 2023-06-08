@@ -42,8 +42,18 @@
 		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
-		</dependency>
+		</dependency>	
 
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		
 
 	</dependencies>
 
@@ -76,5 +86,6 @@
 
 		</plugins>
 	</build>
+	
 
 </project>

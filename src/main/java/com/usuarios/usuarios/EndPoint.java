@@ -1,8 +1,9 @@
 package com.usuarios.usuarios;
 
-import java.util.Optional;
+import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -10,15 +11,13 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import https.t4is_uv_mx.clientes.BusquedaPedidoIDRequest;
 import https.t4is_uv_mx.clientes.BusquedaPedidoIDResponse;
+import https.t4is_uv_mx.clientes.ListaInventarioResponse;
 import https.t4is_uv_mx.clientes.ListaPedidosResponse;
 import https.t4is_uv_mx.clientes.RegistroRequest;
 import https.t4is_uv_mx.clientes.RegistroResponse;
 
 @Endpoint
 public class EndPoint {
-
-    Iterable<Pedidos> listaClientes;
-
     @Autowired
     private iClientes iclientes;
 
@@ -35,20 +34,22 @@ public class EndPoint {
         cliente.setTotal(peticion.getTotal());
         iclientes.save(cliente);
 
-        response.setRespuesta("Cliente Registrado");
+        response.setRespuesta("Pedido Registrado");
 
         return response;
     }
 
     @PayloadRoot(localPart = "BusquedaPedidoIDRequest", namespace = "https://t4is.uv.mx/clientes")
     @ResponsePayload
-    public BusquedaPedidoIDResponse buscarId(@RequestPayload BusquedaPedidoIDRequest peticion) {
+    public BusquedaPedidoIDResponse buscarId(@Validated @RequestPayload BusquedaPedidoIDRequest peticion) {
         BusquedaPedidoIDResponse response = new BusquedaPedidoIDResponse();
+        Pedidos pedido = iclientes.findById(peticion.getId()).get();
+
         if (peticion.getId() == 0) {
             response.setStatus("400 Bad Request");
         } else {
-            Pedidos pedido = iclientes.findById(peticion.getId()).get();
-            response.setStatus("200 OK");
+            if (peticion.getId() == pedido.getId())
+                response.setStatus("200 OK");
             response.setNombre(pedido.getNombre());
             response.setFolio(pedido.getFolio());
             response.setCantidad(pedido.getCantidad());
@@ -76,6 +77,31 @@ public class EndPoint {
                 e.setTotal(pedido.getTotal());
             }
             response.getPedidos().add(e);
+        }
+        return response;
+    }
+
+    @Autowired
+    private iInventarios inventarios;
+
+    @PayloadRoot(localPart = "ListaInventarioRequest", namespace = "https://t4is.uv.mx/clientes")
+    @ResponsePayload
+    public ListaInventarioResponse listarInven() {
+        ListaInventarioResponse response = new ListaInventarioResponse();
+        Iterable<Inventario> listaInventario = inventarios.findAll();
+        for (Inventario inventario : listaInventario) {
+            ListaInventarioResponse.Inventario i = new ListaInventarioResponse.Inventario();
+            if (inventario.getNombre().isEmpty() || inventario.getFolio().isEmpty()) {
+                i.setStatus("400 Bad Request");
+            } else {
+                i.setStatus("200 OK");
+                i.setId(BigInteger.valueOf(inventario.getId()));
+                i.setNombre(inventario.getNombre());
+                i.setFolio(inventario.getFolio());
+                //i.setCantidad(BigInteger.valueOf());
+                i.setTotal(Integer.toString(inventario.getTotal()));
+            }
+            response.getInventario().add(i);
         }
         return response;
     }
