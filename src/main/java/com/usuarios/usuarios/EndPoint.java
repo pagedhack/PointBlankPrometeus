@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -84,6 +85,7 @@ public class EndPoint {
     @Autowired
     private iInventarios inventarios;
 
+    @CrossOrigin(origins = "http://cafe-soap-production.up.railway.app:80/ws")
     @PayloadRoot(localPart = "ListaInventarioRequest", namespace = "https://t4is.uv.mx/clientes")
     @ResponsePayload
     public ListaInventarioResponse listarInven() {
@@ -98,7 +100,6 @@ public class EndPoint {
                 i.setId(BigInteger.valueOf(inventario.getId()));
                 i.setNombre(inventario.getNombre());
                 i.setFolio(inventario.getFolio());
-                //i.setCantidad(BigInteger.valueOf());
                 i.setTotal(Integer.toString(inventario.getTotal()));
             }
             response.getInventario().add(i);
